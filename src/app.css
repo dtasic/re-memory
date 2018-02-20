@@ -1,0 +1,119 @@
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+button {
+  border: 0;
+  padding: 4px 5px 3px 5px;
+  cursor: pointer;
+  background: #999;
+  color: #FFF;
+  font-weight: 300;
+  text-transform: uppercase;
+  border-radius: 5px;
+  outline: none;
+}
+
+button:hover {
+  background: #777;
+  outline: none;
+}
+
+span.right {
+  color: #090;
+  margin-right: 5px;
+}
+
+.right {
+  float: right;
+  text-align: right;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+  width: 70vh;
+  margin: 1vh auto;
+}
+
+.header {
+  width: 70vh;
+  margin: 8vh auto 1vh auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.footer {
+  width: 70vh;
+  margin: 1vh auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.tile {
+  height: 16vh;
+  width: 16vh;
+  border: 1px solid #999;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 15vh;
+  color: #DDD;
+  font-weight: 700;
+}
+
+.tile:hover:not(.solved) {
+  background-color: #F3F3F3;
+  cursor: pointer;
+}
+
+.football {
+  background: url(images/football.svg) center center no-repeat;
+  background-size: 75% 75%;
+}
+
+.basketball {
+  background: url(images/basketball.svg) center center no-repeat;
+  background-size: 75% 75%;
+}
+
+.baseball {
+  background: url(images/baseball.svg) center center no-repeat;
+  background-size: 75% 75%;
+}
+
+.rugby {
+  background: url(images/rugby.svg) center center no-repeat;
+  background-size: 75% 75%;
+}
+
+.tennis {
+  background: url(images/tennis.svg) center center no-repeat;
+  background-size: 75% 75%;
+}
+
+.pool {
+  background: url(images/pool.svg) center center no-repeat;
+  background-size: 75% 75%;
+}
+
+.bowling {
+  background: url(images/bowling.svg) center center no-repeat;
+  background-size: 75% 75%;
+}
+
+.hockey {
+  background: url(images/hockey.svg) center center no-repeat;
+  background-size: 75% 75%;
+}
