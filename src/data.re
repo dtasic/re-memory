@@ -5,6 +5,8 @@ type tile = {
   solved: bool
 };
 
+type tiles = list(tile);
+
 let rawtiles = [
   {id: 1, sport: "baseball", visible: false, solved: false},
   {id: 2, sport: "basketball", visible: false, solved: false},

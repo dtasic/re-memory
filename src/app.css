@@ -42,6 +42,13 @@ span.right {
   text-align: right;
 }
 
+.timer {
+  height: 12px;
+  background: #090;
+  float: right;
+  margin: 0 5px;
+}
+
 .tiles {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
