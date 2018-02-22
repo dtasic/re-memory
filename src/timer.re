@@ -1,3 +1,5 @@
+/* closing tiles timer (visual countdown) */
+
 type state = {
     timerWidth: int
 };

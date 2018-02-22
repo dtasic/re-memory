@@ -1,4 +1,5 @@
 /* costants, helper functions */
+
 let str = ReasonReact.stringToElement;
 
 let time_delay = 750;
@@ -8,7 +9,9 @@ let timer_update = 10;
 let knuth_shuffle = a => {
   let n = Array.length(a);
   let a = Array.copy(a);
-  Random.init(int_of_float(Js.Date.now()));
+  
+  Js.Date.now() |> int_of_float |> Random.init;
+
   for (i in n - 1 downto 1) {
     let k = Random.int(i + 1);
     let x = a[k];

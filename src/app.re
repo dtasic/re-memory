@@ -1,5 +1,8 @@
 /* get styles file */
+
 [%bs.raw {|require('./app.css')|}] /* tiles, state and actions */;
+
+/* state and actions */
 
 type state = {
   tiles: Data.tiles,
@@ -9,38 +12,31 @@ type state = {
   finished: bool
 };
 
+let initState = {
+  tiles: Utils.shuffleTiles(Data.rawtiles),
+  openedtile: None,
+  closing: false,
+  attempts: 0,
+  finished: false
+};
+
 type action =
   | OpenTile(Data.tile)
   | CheckTiles(Data.tile)
   | CloseTiles
-  | ResetGame /* main App */;
+  | ResetGame;
+
+/* main App */
 
 let component = ReasonReact.reducerComponent("App");
 
 let make = _children => {
   ...component,
-  initialState: () => {
-    tiles: Utils.shuffleTiles(Data.rawtiles: Data.tiles),
-    openedtile: None,
-    closing: false,
-    attempts: 0,
-    finished: false
-  },
+  initialState: () => initState,
   reducer: (action, state) =>
     switch action {
     | ResetGame =>
-      let tiles =
-        List.map(
-          (tile: Data.tile) => {...tile, visible: false, solved: false},
-          state.tiles
-        );
-      ReasonReact.Update({
-        ...state,
-        closing: false,
-        attempts: 0,
-        finished: false,
-        tiles: Utils.shuffleTiles(tiles)
-      });
+      ReasonReact.Update(initState);
     | CloseTiles =>
       let tiles =
         List.map((tile: Data.tile) => {...tile, visible: false}, state.tiles);
@@ -70,15 +66,7 @@ let make = _children => {
         });
       } else {
         ReasonReact.SideEffects(
-          (
-            self =>
-              ignore(
-                Js.Global.setTimeout(
-                  () => self.send(CloseTiles),
-                  Utils.time_delay
-                )
-              )
-          )
+          self => ignore(Js.Global.setTimeout(() => self.send(CloseTiles), Utils.time_delay))
         );
       }
     | OpenTile(currenttile) =>
