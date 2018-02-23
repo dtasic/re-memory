@@ -20,10 +20,19 @@ let initState = {
   finished: false
 };
 
+let closeUnmatched = (tiles, attempts) => 
+  {
+    tiles,
+    closing: false,
+    finished: Utils.isAllSolved(tiles),
+    attempts: attempts + 1,
+    openedtile: None
+  };
+
 type action =
   | OpenTile(Data.tile)
   | CheckTiles(Data.tile)
-  | CloseTiles
+  | CloseWithDelay
   | ResetGame;
 
 /* main App */
@@ -37,16 +46,10 @@ let make = _children => {
     switch action {
     | ResetGame =>
       ReasonReact.Update(initState);
-    | CloseTiles =>
+    | CloseWithDelay =>
       let tiles =
         List.map((tile: Data.tile) => {...tile, visible: false}, state.tiles);
-      ReasonReact.Update({
-        tiles,
-        closing: false,
-        finished: Utils.isAllSolved(tiles),
-        attempts: state.attempts + 1,
-        openedtile: None
-      });
+      ReasonReact.Update(closeUnmatched(tiles, state.attempts));
     | CheckTiles(currenttile) =>
       if (Utils.getOpenedTileSport(state.openedtile) === currenttile.sport) {
         let tiles =
@@ -57,16 +60,10 @@ let make = _children => {
                 {...tile, solved: true} : tile,
             state.tiles
           );
-        ReasonReact.Update({
-          tiles,
-          closing: false,
-          finished: Utils.isAllSolved(tiles),
-          attempts: state.attempts + 1,
-          openedtile: None
-        });
+        ReasonReact.Update(closeUnmatched(tiles, state.attempts));
       } else {
         ReasonReact.SideEffects(
-          self => ignore(Js.Global.setTimeout(() => self.send(CloseTiles), Utils.time_delay))
+          self => ignore(Js.Global.setTimeout(() => self.send(CloseWithDelay), Utils.time_delay))
         );
       }
     | OpenTile(currenttile) =>
