@@ -46,7 +46,7 @@ let make = _children => {
   reducer: (action, state) =>
     switch action {
     | ResetGame =>
-      ReasonReact.Update(initState);
+      ReasonReact.Update({...initState, tiles: Utils.shuffleTiles(Data.rawtiles)});
     | CloseWithDelay =>
       let tiles =
         List.map((tile: Data.tile) => {...tile, status: tile.status !== Solved ? Hidden : Solved}, state.tiles);
