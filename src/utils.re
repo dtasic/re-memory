@@ -37,4 +37,4 @@ let getOpenedTileSport = (tile: option(Data.tile)) =>
   };
 
 let isAllSolved = tiles =>
-  List.for_all((tile: Data.tile) => tile.solved === true, tiles);
+  List.for_all((tile: Data.tile) => tile.status === Solved, tiles);

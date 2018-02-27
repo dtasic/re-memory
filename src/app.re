@@ -3,9 +3,10 @@
 [%bs.raw {|require('./app.css')|}] /* tiles, state and actions */;
 
 /* state and actions */
+type tiles = list(Data.tile);
 
 type state = {
-  tiles: Data.tiles,
+  tiles: tiles,
   openedtile: option(Data.tile),
   closing: bool,
   attempts: int,
@@ -48,7 +49,7 @@ let make = _children => {
       ReasonReact.Update(initState);
     | CloseWithDelay =>
       let tiles =
-        List.map((tile: Data.tile) => {...tile, visible: false}, state.tiles);
+        List.map((tile: Data.tile) => {...tile, status: tile.status !== Solved ? Hidden : Solved}, state.tiles);
       ReasonReact.Update(closeUnmatched(tiles, state.attempts));
     | CheckTiles(currenttile) =>
       if (Utils.getOpenedTileSport(state.openedtile) === currenttile.sport) {
@@ -57,7 +58,7 @@ let make = _children => {
             (tile: Data.tile) =>
               tile.id === Utils.getOpenedTileId(state.openedtile)
               || tile.id === currenttile.id ?
-                {...tile, solved: true} : tile,
+                {...tile, status: Solved} : tile,
             state.tiles
           );
         ReasonReact.Update(closeUnmatched(tiles, state.attempts));
@@ -68,15 +69,10 @@ let make = _children => {
       }
     | OpenTile(currenttile) =>
       let tiles =
-        List.map(
-          (tile: Data.tile) =>
-            tile.id === currenttile.id ? {...tile, visible: true} : tile,
-          state.tiles
-        );
-      if (Utils.getOpenedTileId(state.openedtile) !== 0) {
+        List.map((tile: Data.tile) => tile.id === currenttile.id ? {...tile, status: Visible} : tile,state.tiles);
+      if (state.openedtile !== None) {
         ReasonReact.UpdateWithSideEffects(
-          {...state, tiles, closing: true},
-          (self => self.send(CheckTiles(currenttile)))
+          {...state, tiles, closing: true}, (self => self.send(CheckTiles(currenttile)))
         );
       } else {
         ReasonReact.Update({...state, tiles, openedtile: Some(currenttile)});

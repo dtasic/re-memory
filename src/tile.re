@@ -6,12 +6,12 @@ let make = (~tile: Data.tile, ~closing, ~onClick, _children) => {
   render: (_self) =>
     <div className=(
         "tile " 
-        ++ (tile.visible || tile.solved ? tile.sport : "") 
-        ++ (tile.visible ? " visible" : "") 
-        ++ (tile.solved ? " solved" : "")
+        ++ (tile.status === Visible || tile.status === Solved ? tile.sport : "") 
+        ++ (tile.status === Visible ? " visible" : "") 
+        ++ (tile.status === Solved ? " solved" : "")
       ) 
-      onClick=(_e => (!tile.solved && !tile.visible && !closing) ? onClick(tile) : ()
+      onClick=(_e => (tile.status !== Visible && tile.status !== Solved && !closing) ? onClick(tile) : ()
     )>
-      (Utils.str(tile.visible || tile.solved ? "" : "?"))
+      (Utils.str(tile.status === Visible || tile.status === Solved ? "" : "?"))
     </div>
 };
