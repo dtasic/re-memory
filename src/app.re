@@ -1,8 +1,8 @@
 /* get styles file */
 
-[%bs.raw {|require('./app.css')|}] /* tiles, state and actions */;
+[%bs.raw {|require('./app.css')|}];
 
-/* state and actions */
+/* tiles, state and actions */
 type tiles = list(Data.tile);
 
 type state = {
@@ -21,7 +21,7 @@ let initState = {
   finished: false
 };
 
-let closeUnmatched = (tiles, attempts) => 
+let finishAttempt = (tiles, attempts) => 
   {
     tiles,
     closing: false,
@@ -50,7 +50,7 @@ let make = _children => {
     | CloseWithDelay =>
       let tiles =
         List.map((tile: Data.tile) => {...tile, status: tile.status !== Solved ? Hidden : Solved}, state.tiles);
-      ReasonReact.Update(closeUnmatched(tiles, state.attempts));
+      ReasonReact.Update(finishAttempt(tiles, state.attempts));
     | CheckTiles(currenttile) =>
       if (Utils.getOpenedTileSport(state.openedtile) === currenttile.sport) {
         let tiles =
@@ -61,7 +61,7 @@ let make = _children => {
                 {...tile, status: Solved} : tile,
             state.tiles
           );
-        ReasonReact.Update(closeUnmatched(tiles, state.attempts));
+        ReasonReact.Update(finishAttempt(tiles, state.attempts));
       } else {
         ReasonReact.SideEffects(
           self => ignore(Js.Global.setTimeout(() => self.send(CloseWithDelay), Utils.time_delay))
